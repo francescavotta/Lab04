@@ -49,7 +49,32 @@ public class Corso {
 
 	@Override
 	public String toString() {
-		return  nome;
+		return  nome+"\n";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codins == null) ? 0 : codins.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Corso other = (Corso) obj;
+		if (codins == null) {
+			if (other.codins != null)
+				return false;
+		} else if (!codins.equals(other.codins))
+			return false;
+		return true;
 	}
 	
 	

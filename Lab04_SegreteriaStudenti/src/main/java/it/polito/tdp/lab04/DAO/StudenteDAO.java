@@ -77,4 +77,10 @@ public class StudenteDAO {
 		return corsi;
 	}
 
+	public boolean cercaAssociazione(int matricola, Corso corso) {
+		List <Corso> corsiStudente = this.getCorsiByMatricola(matricola);
+		if(corsiStudente.contains(corso))
+			return true;
+		return false;
+	}
 }

@@ -82,14 +82,24 @@ public class FXMLController {
     	txtNome.setText(s.getNome());
     	
     	List <Corso> corsi = model.getCorsiStudente(matricola);
-    	txtRisultato.setText(corsi.toString());
+    	String stampa = "";
+    	for(Corso c: corsi)
+    		stampa += c.toString();
+    	txtRisultato.setText(stampa);
+    	
+    	if(cmbCorsi.getValue()!=null && !cmbCorsi.getValue().equals("--")) {
+    		if(model.getAssociazione(matricola, cmbCorsi.getValue()))
+    			txtRisultato.appendText("Lo stuednte è iscritto al  corso selezionato");
+    		else
+    			txtRisultato.appendText("Lo stuednte non è iscritto al  corso selezionato");
+    	}
     }
 
     @FXML
     void doCercaIscritti(ActionEvent event) {
     	
     	Corso tempC = this.cmbCorsi.getValue();
-    	if(tempC.getNome().equals("--")) {
+    	if(tempC==null || tempC.getNome().equals("--") ) {
     		txtRisultato.setText("Selezionare un corso valido!");
     		return;
     	}
@@ -98,18 +108,53 @@ public class FXMLController {
     		txtRisultato.setText("Nessun iscritto al corso");
     		return;
     	}
-    	txtRisultato.setText(studenti.toString());
+    	String stampa = "";
+    	for(Studente s: studenti)
+    		stampa += s.toString();
+    	txtRisultato.setText(stampa);
 
     }
 
     @FXML
     void doIscrizione(ActionEvent event) {
+    	int matricola = checkMatricola(txtMatricola);
+    	if(cmbCorsi.getValue()!=null && !cmbCorsi.getValue().equals("--")) {
+    		if(model.getAssociazione(matricola, cmbCorsi.getValue()))
+    			txtRisultato.appendText("Lo studente è iscritto al  corso selezionato");
+    		else {
+    			//txtRisultato.appendText("Lo stuednte non è iscritto al  corso selezionato");
+    			//ora si prova
+    			if(model.iscrizione(matricola, cmbCorsi.getValue())==0)
+    				txtRisultato.appendText("\nLo studente non è stato iscritto");
+    			else 
+    				txtRisultato.appendText("\nLo studente ora è iscritto al  corso selezionato");
+    		}
+    	}
 
     }
 
-    @FXML
-    void doReset(ActionEvent event) {
+    private int checkMatricola(TextField txtMatricola2) {
+    	int matricola;
+    	try {
+    		if(txtMatricola.getText().length() != 6) {
+    			txtRisultato.setText("Matricola non valida!");
+    			return 0;
+    		}
 
+    		matricola = Integer.parseInt(txtMatricola.getText());
+    	}catch(NumberFormatException nfe) {
+    		txtRisultato.setText("Matricola non valida");
+    		return 0;
+    	}
+		return matricola;
+	}
+
+	@FXML
+    void doReset(ActionEvent event) {
+    	txtCognome.clear();
+    	txtNome.clear();
+    	txtRisultato.clear();
+    	txtMatricola.clear();
     }
 
     @FXML
