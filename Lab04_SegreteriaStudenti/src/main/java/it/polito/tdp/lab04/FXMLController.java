@@ -155,6 +155,9 @@ public class FXMLController {
     	txtNome.clear();
     	txtRisultato.clear();
     	txtMatricola.clear();
+    	cmbCorsi.setValue(null);
+    	
+    	
     }
 
     @FXML
