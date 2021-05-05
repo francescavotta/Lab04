@@ -155,7 +155,7 @@ public class FXMLController {
     	txtNome.clear();
     	txtRisultato.clear();
     	txtMatricola.clear();
-    	cmbCorsi.setValue(null);
+    	cmbCorsi.getSelectionModel().clearSelection();
     	
     	
     }
